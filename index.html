@@ -17,5 +17,14 @@
   <div id="ringtone-root"></div>
 
   <script type="module" src="/src/main.js"></script>
+
+  <!-- Vercel Analytics — plain-HTML integration (no npm/build step for this
+       static site; the @vercel/analytics package needs a bundler to run in
+       the browser, which this project deliberately doesn't have). Served
+       automatically by Vercel at deploy time, zero-config. -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
