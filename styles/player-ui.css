@@ -165,6 +165,17 @@
   object-fit: cover;
   background: #0b0c0e;
   flex: none;
+  animation: player-art-spin 8s linear infinite;
+  animation-play-state: paused;
+}
+
+.player-bar__art--spinning {
+  animation-play-state: running;
+}
+
+@keyframes player-art-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .player-bar__info {
@@ -338,5 +349,9 @@
   .player-bar__btn,
   .player-bar__progress-fill {
     transition: none;
+  }
+
+  .player-bar__art {
+    animation: none;
   }
 }

@@ -102,11 +102,13 @@ export function createPlayerUi(bus, root) {
   bus.addEventListener('player:playing', () => {
     els.playBtn.innerHTML = '&#10074;&#10074;';
     els.playBtn.setAttribute('aria-label', 'Pause');
+    els.art.classList.add('player-bar__art--spinning');
   });
 
   bus.addEventListener('player:paused', () => {
     els.playBtn.innerHTML = '&#9654;';
     els.playBtn.setAttribute('aria-label', 'Play');
+    els.art.classList.remove('player-bar__art--spinning');
   });
 
   bus.addEventListener('player:blocked', () => {
