@@ -144,8 +144,16 @@ export function createPlayerUi(bus, root) {
     }
     els.progress.addEventListener('pointerdown', (e) => {
       dragging = true;
-      els.progress.setPointerCapture(e.pointerId);
       seekFromEvent(e);
+      // Capture is just for smooth drag-tracking outside the bar's bounds;
+      // it can throw (observed: NotFoundError) in edge cases that shouldn't
+      // block the seek itself, which must already have happened above.
+      try {
+        els.progress.setPointerCapture(e.pointerId);
+      } catch {
+        // ignore — dragging still works without capture, just less smoothly
+        // if the pointer leaves the bar's bounds mid-drag.
+      }
     });
     els.progress.addEventListener('pointermove', (e) => {
       if (dragging) seekFromEvent(e);

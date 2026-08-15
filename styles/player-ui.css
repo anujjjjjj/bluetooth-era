@@ -201,7 +201,12 @@
 }
 
 .player-bar__progress {
-  height: 3px;
+  /* box-sizing:border-box is set globally (base.css); with that, height must
+     include the padding, not sit alongside it — height:3px + padding:6px top
+     and bottom left zero room for content, collapsing the visible bar (and
+     the fill inside it, at height:100% of that zero) to nothing. 15px = 3px
+     visible track + 6px padding top + 6px padding bottom. */
+  height: 15px;
   padding: 6px 0;
   background-clip: content-box;
   border-radius: 2px;
