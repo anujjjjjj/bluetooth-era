@@ -1,0 +1,19 @@
+:root {
+  --tap-dur: 180ms;
+  --wipe-dur: 220ms;
+  --flicker-dur: 60ms;
+  --thumb-dur: 200ms;
+  --backlight-dur: 120ms;
+  --ease-key: cubic-bezier(0.2, 0, 0, 1);
+  --ease-wipe: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tap-dur: 0ms;
+    --wipe-dur: 0ms;
+    --flicker-dur: 0ms;
+    --thumb-dur: 0ms;
+    --backlight-dur: 0ms;
+  }
+}
