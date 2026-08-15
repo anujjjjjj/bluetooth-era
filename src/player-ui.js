@@ -73,6 +73,7 @@ export function createPlayerUi(bus, root) {
     title: root.querySelector('.player-bar__title'),
     artist: root.querySelector('.player-bar__artist'),
     time: root.querySelector('.player-bar__time'),
+    progress: root.querySelector('.player-bar__progress'),
     fill: root.querySelector('.player-bar__progress-fill'),
     playBtn: root.querySelector('[data-action="playpause"]'),
     status: root.querySelector('.player-bar__status'),
@@ -127,6 +128,32 @@ export function createPlayerUi(bus, root) {
       else if (action === 'playpause') player.togglePlayPause();
     });
     els.status.addEventListener('click', () => player.retry());
+
+    // Click-to-seek and drag-to-scrub on the progress bar. Pointer Events
+    // cover mouse and touch uniformly. Fill updates immediately on drag
+    // rather than waiting for the next player:tick poll (up to 250ms away),
+    // which would otherwise feel laggy while scrubbing.
+    let dragging = false;
+    function seekFromEvent(e) {
+      const rect = els.progress.getBoundingClientRect();
+      const fraction = (e.clientX - rect.left) / rect.width;
+      els.fill.style.width = `${Math.max(0, Math.min(100, fraction * 100))}%`;
+      player.seekToFraction(fraction);
+    }
+    els.progress.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      els.progress.setPointerCapture(e.pointerId);
+      seekFromEvent(e);
+    });
+    els.progress.addEventListener('pointermove', (e) => {
+      if (dragging) seekFromEvent(e);
+    });
+    els.progress.addEventListener('pointerup', () => {
+      dragging = false;
+    });
+    els.progress.addEventListener('pointercancel', () => {
+      dragging = false;
+    });
   }
 
   return { bindPlayer };

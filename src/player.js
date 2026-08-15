@@ -114,6 +114,17 @@ export function createPlayer(bus, elementId = 'yt') {
       yt.pauseVideo();
     }
 
+    // fraction is 0-1 across the track's duration, from a progress-bar click.
+    function seekToFraction(fraction) {
+      const duration = yt.getDuration();
+      if (!duration) return;
+      const wasPlaying = yt.getPlayerState() === window.YT.PlayerState.PLAYING;
+      yt.seekTo(Math.max(0, Math.min(1, fraction)) * duration, true);
+      // Same stall-prevention as goPrev's restart — seekTo() can leave the
+      // player stuck paused/buffering instead of resuming on its own.
+      if (wasPlaying) yt.playVideo();
+    }
+
     function retry() {
       state.consecutiveErrors = 0;
       state.blocked = false;
@@ -199,7 +210,7 @@ export function createPlayer(bus, elementId = 'yt') {
       },
       events: {
         onReady: () => {
-          resolve({ goNext, goPrev, jumpToIndex, togglePlayPause, pause, retry });
+          resolve({ goNext, goPrev, jumpToIndex, togglePlayPause, pause, retry, seekToFraction });
         },
         onStateChange: handleStateChange,
         onError: handleError,
