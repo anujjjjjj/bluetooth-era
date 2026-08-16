@@ -343,10 +343,21 @@
 
   .ringtone-btn {
     left: 12px;
-    bottom: 80px;
+    bottom: 100px;
     width: 40px;
     height: 40px;
     font-size: 17px;
+  }
+
+  /* Tighter than desktop's 6px: the fuller info column (title + artist +
+     progress + time) stacked against a shrunk 44px art circle already makes
+     this pill taller than desktop's; the extra padding here was pushing its
+     top edge up into the ringtone button above it (bottom:80px assumed a
+     shorter pill from before the hit-area padding existed — the button
+     wasn't moved to match, which is what actually caused the overlap). */
+  .player-bar__progress {
+    height: 9px;
+    padding: 3px 0;
   }
 }
 
