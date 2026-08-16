@@ -25,7 +25,18 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
+  /* Biased toward the phone/hand in the photo, not the image's true center —
+     on a narrow phone viewport, cover-crop only keeps a ~25% vertical slice
+     of the image's width, and plain center (50%) crops the actual subject
+     out of frame entirely (it sits around 55-72% across), leaving just
+     window/desk background. This keeps it in frame down to phone widths. */
+  object-position: 62% 38%;
+}
+
+@media (max-width: 639px) {
+  .scene__bg {
+    filter: brightness(0.8);
+  }
 }
 
 #player-root {
